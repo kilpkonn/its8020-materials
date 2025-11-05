@@ -17,7 +17,7 @@
   #set text(size: .8em, weight: "light")
   Tavo Annus
 
-  Jan 16, 2025
+  Nov 6, 2025
 ]
 
 #new-section[Tooling]

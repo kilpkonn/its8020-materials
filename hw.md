@@ -1,5 +1,7 @@
 # Homework
 
+_Deadline: Has to be defended before exam_
+
 Write a wallpaper engine for you desktop environment.
 
 Required features:
