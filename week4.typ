@@ -54,6 +54,42 @@
   
     - A type is `Send` if it is safe to send it to another thread.
     - A type is `Sync` if it is safe to share between threads (`T` is `Sync` if and only if `&T` is `Send`).
+
+    #note[
+      You can `unsafe impl Send` for your own types.
+      Be super careful though as the correctness of the execution is on you then!
+    ]
+]
+
+#slide[
+  = `Mutex` and `RwLock`
+
+  ```rs
+  let m = Mutex::new(0);
+  let mut data = m.lock().unwrap();
+
+  let rw = RwLock::new(0);
+  let r = rw.read().unwrap();
+  drop(r)
+  let mut w = rw.write().unwrap();
+  ```
+]
+
+#slide[
+  = `Mutex` and `RwLock`
+
+  - `RwLock` allows multiple readers
+  - `RwLock` has more bounds on data (`T` has to be `Sync` for `RwLock<T>` to be `Sync`)
+  - Potential writer starvation for `RwLock`
+]
+
+#slide[
+  = Atomics
+
+  - Similar to C++ model of atomics
+  - See fetch ordering here: https://doc.rust-lang.org/std/sync/atomic/enum.Ordering.html
+
+  More on atomics: #link("https://doc.rust-lang.org/std/sync/atomic/")
 ]
 
 #slide[
