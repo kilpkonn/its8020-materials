@@ -203,5 +203,15 @@
   - `F<T>` is #text(blue)[covariant] over `T` if `T` being a subtype of `U` implies that `F<T>` is a subtype of `F<U>` (subtyping “passes through”)
   - `F<T>` is #text(blue)[contravariant] over `T` if `T` being a subtype of `U` implies that `F<U>` is a subtype of `F<T>`
   - `F<T>` is #text(blue)[invariant] over `T` otherwise (no subtyping relation can be derived)
+]
 
+#slide[
+  = Subtyping and Variance
+  ```rs
+  fn bar<'a>() {
+    let s: &'static str = "hi";
+    let t: &'a str = s;  // Note that the 'static outlives 'a 
+  }
+  ```
+  _Which is the subtype of the other?_
 ]
