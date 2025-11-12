@@ -50,6 +50,15 @@
 ]
 
 #slide[
+  = Scoped threads
+
+  - Allows borrowing non-`'static` data
+  - Automatically joins all threads on on "going out of scope"
+  
+  See #link("https://doc.rust-lang.org/stable/std/thread/fn.scope.html")
+]
+
+#slide[
   = `Send` and `Sync` traits
   
     - A type is `Send` if it is safe to send it to another thread.
@@ -110,4 +119,13 @@
   // Receive message
   rx.recv().unwrap(); 
   ```
+]
+
+#slide[
+  = Channels in rust
+  - _What to do if the queue starts growing?_
+  - _What if thread panics/exits after poping the value, but not acting?_
+  - _Can you cause deadlocks?_
+
+  See `tokio` channels: #link("https://tokio.rs/tokio/tutorial/channels")
 ]
