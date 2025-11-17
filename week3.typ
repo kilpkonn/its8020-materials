@@ -215,3 +215,12 @@
   ```
   _Which is the subtype of the other?_
 ]
+
+#slide[
+  = Subtyping and Variance
+  ```rs
+  fn bar<'a, 'b>(x: &'a str, mut y: &'b str) where 'a: 'b {
+    y = x;
+  }
+  ```
+]
