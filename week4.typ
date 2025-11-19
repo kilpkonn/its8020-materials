@@ -7,7 +7,7 @@
 
  
   #text(size: 1.3em)[
-    *Parallelism, threads, channels*
+    *Foreign function interface*
   ]
 
   ITS8020
@@ -21,111 +21,170 @@
 ]
 
 #slide[
-   = Subprocesses
-
-   ```rs
-   use std::process::Command;
-
-   let output = Command::new("echo")
-       .arg("Hello world")
-       .output()
-       .expect("Failed to execute command");
-   ```
-
-   See #link("https://doc.rust-lang.org/std/process/index.html")
+  See: https://slightknack.github.io/rust-abi-wiki/intro/intro.html
 ]
 
 #slide[
-  = Threads
+  = What is ABI
+  ABIs describe two main facilities:
 
-  ```rs
-  use std::thread;
+  - How data is laid out in memory
+  - How functions are called.
 
-  thread::spawn(move || {
-      // some work here
-  });
-  ```
-
-  See #link("https://doc.rust-lang.org/std/thread/index.html")
+  #note[
+    The C ABI is "the oldest" ABI, dating back to C.
+    The C ABI can be used from Rust through the use of `extern "C"`.
+  ]
 ]
 
 #slide[
-  = Scoped threads
+  = What does it mean for an ABI to be stable?
 
-  - Allows borrowing non-`'static` data
-  - Automatically joins all threads on on "going out of scope"
+  A stable ABI means that a compiler will consistently produce the same ABI for an executable across versions.
+
+  #note[
+    Rust has no stable ABI nor is it planning to add one.
+  ]
+]
+
+#slide[
+  = Why is a stable ABI a good thing?
+
+  Stable ABI enables dynamic linking, incremental compilation over different compiler versions, hot reloading and more...
   
-  See #link("https://doc.rust-lang.org/stable/std/thread/fn.scope.html")
 ]
 
 #slide[
-  = `Send` and `Sync` traits
-  
-    - A type is `Send` if it is safe to send it to another thread.
-    - A type is `Sync` if it is safe to share between threads (`T` is `Sync` if and only if `&T` is `Send`).
+  = Why is a stable ABI a bad thing?
 
-    #note[
-      You can `unsafe impl Send` for your own types.
-      Be super careful though as the correctness of the execution is on you then!
-    ]
+  It doesn't let you change it therefore you cannot improve it.
 ]
 
 #slide[
-  = `Mutex` and `RwLock`
+  = How to use stable ABI in Rust
+  You reuse C ABI.
+]
+
+#slide[
+  = Data types
+  ```rs
+  #[repr(C)]
+  struct Foo {
+    a: bool,
+    b: u64,
+  }
+  ```
+  #note[
+    `repr(packed)` and `repr(align(n))` are modifiers on `repr(C)`.
+  ]
+  See https://doc.rust-lang.org/nomicon/other-reprs.html
+]
+
+#slide[
+  = Functions
+  ```rs
+  // Explicitly "C"
+  extern "C" fn foo(arg: bool) -> u32 { todo!() }
+  // Implicitly "C"
+  extern fn bar(arg: bool) -> u32 { todo!() }
+  ```
+
+  _Can we call them from C?_
+]
+
+#slide[
+  = Functions
 
   ```rs
-  let m = Mutex::new(0);
-  let mut data = m.lock().unwrap();
-
-  let rw = RwLock::new(0);
-  let r = rw.read().unwrap();
-  drop(r)
-  let mut w = rw.write().unwrap();
+  // Turn off name mangling
+  #[unsafe(no_mangle)]
+  extern foo(arg: bool) -> u32 { todo!() }
   ```
 ]
 
 #slide[
-  = `Mutex` and `RwLock`
-
-  - `RwLock` allows multiple readers
-  - `RwLock` has more bounds on data (`T` has to be `Sync` for `RwLock<T>` to be `Sync`)
-  - Potential writer starvation for `RwLock`
-]
-
-#slide[
-  = Atomics
-
-  - Similar to C++ model of atomics
-  - See fetch ordering here: https://doc.rust-lang.org/std/sync/atomic/enum.Ordering.html
-
-  More on atomics: #link("https://doc.rust-lang.org/std/sync/atomic/")
-]
-
-#slide[
-  = Channels
-
-  #link("https://en.wikipedia.org/wiki/Channel_(programming)")
-]
-
-#slide[
-  = Channels in rust
-
+  = Linking against C
   ```rs
-  use std::sync::mpsc::channel;
-
-  let (tx, rx) = channel::<i32>();
-  // Send message
-  tx.send(123).unwrap();
-  // Receive message
-  rx.recv().unwrap(); 
+  extern "C" {
+    // Use same name as Rust
+    fn foo(arg: bool) -> u32;
+    
+    // Explicitly specify name
+    #[link(name = "bar_in_c")]
+    fn bar() -> f32;
+  }
   ```
 ]
 
 #slide[
-  = Channels in rust
-  - _What to do if the queue starts growing?_
-  - _What if thread panics/exits after poping the value, but not acting?_
-  - _Can you cause deadlocks?_
+  = Specifying files to link against
+  ```rs
+  // build.rs
+  fn main() {
+    // Tell which lib to link
+    println!("cargo:rustc-link-lib=libmysharedlib");
+    // Tell where to search
+    println!("cargo:rustc-link-search=/opt/lib/abc");
+  }
+  ```
+]
 
-  See `tokio` channels: #link("https://tokio.rs/tokio/tutorial/channels")
+#slide[
+  = Useful tools
+  - #link("https://github.com/rust-lang/rust-bindgen")[`rust-bindgen`]
+  - #link("https://github.com/mozilla/cbindgen")[`cbindgen`]
+  - #link("https://github.com/rust-lang/cc-rs")[`cc-rs`]
+  - #link("https://github.com/PyO3/pyo3")[`PyO3`]
+  - #link("https://github.com/mlua-rs/mlua")[`mlua`]
+]
+
+#new-section[`unsafe`]
+
+#slide[
+  = `unsafe` superpowers
+
+  1. Dereference a raw pointer
+  2. Call an unsafe function or method
+  3. Access or modify a mutable static variable
+  4. Implement an unsafe trait
+  5. Access fields of unions
+
+
+  See https://doc.rust-lang.org/book/ch20-01-unsafe-rust.html
+]
+
+#slide[
+  ```rs
+  extern "C" {
+    fn puts(s: *const i8);
+  }
+
+  fn main() {
+    let msg = b"Hello from Rust!\0".as_ptr() as *const i8;
+    unsafe {
+        puts(msg);
+    }
+  }
+  ```
+]
+
+#slide[
+  Best practice is to wrap all C function calls in safe Rust functions to guarantee safety
+
+  #note[
+    Note that the function has to be safe to call from anywhere, not just from your current implementation.
+    This includes multi-threaded code!
+  ]
+]
+
+#slide[
+  = `libc`
+  Most of Rust is built "on top" of `libc` as that is stable "wrapper of syscalls".
+
+  Rust has official library #link("https://github.com/rust-lang/libc")[`libc`] to interact with it.
+
+  #note[
+    It is called `libc` for historical reasons, it doesn't mean it has to be implemented in `C`.
+    For example, there is also #link("https://gitlab.redox-os.org/redox-os/relibc")[relibc]
+  ]
 ]
