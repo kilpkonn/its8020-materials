@@ -188,3 +188,15 @@
     For example, there is also #link("https://gitlab.redox-os.org/redox-os/relibc")[relibc]
   ]
 ]
+
+#slide[
+  = Rust `std`, `core` and `alloc`
+  In rust standard library `std` is composed of
+  1. `core` - language "core" functionalities
+  2. `alloc` - functionalities that require heap allocation
+  3. Functionalities built on "syscalls"/OS
+
+  #note[
+    First two (`core` and `alloc`) can be used in `#[no_std]` environments e.g. on bare metal.
+  ]
+]

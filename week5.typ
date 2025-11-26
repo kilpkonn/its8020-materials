@@ -129,3 +129,128 @@
 
   See `tokio` channels: #link("https://tokio.rs/tokio/tutorial/channels")
 ]
+
+#new-section[`async/await`]
+
+#slide[
+  = Non-blocking interfaces
+  Synchronous interfaces yield result as soon as they are done.
+
+  Asynchronous interfaces yield progress that something is being done, or the result, once they are done.
+]
+
+#slide[
+  = Non-blocking interfaces
+
+  In Rust, the state of `async` function maps to
+  ```rs
+  enum Poll<T> {
+    Ready(T),
+    Pending // Come back later, we are not done
+  }
+  ```
+]
+
+#slide[
+  = Polling
+
+  `Poll` usually ends up in the return type of functions that start with `poll_` and signals that we attempt an operation without blocking.
+
+  These methods take `&mut self` (or really pinned version) as they need to internally keep track of where they left off.
+
+  ```rs
+  // Rust like pseudocode
+  loop {
+    match my_future.poll() {
+      Ready(res) => println!("Got {res}"),
+      Pending => continue,
+    }
+  }
+  ```
+]
+
+#slide[
+  = Standardized polling
+  ```rs
+  // Simplified version of future trait
+  trait Future {
+    type Output;
+    fn poll(&mut self) -> Poll<Self::Output>
+  }
+  ```
+  Types that implement `Future` are called futures
+
+  #note[
+    In general, you should not poll future that has returned `Poll::Ready`.
+    If done so, future is allowed to panic.
+  ]
+]
+
+#slide[
+  = Standardized polling
+  Pooling manually is inconvenient and luckily is rarely seen in Rust.
+
+  Instead you use `.await` that polls the underlying future and either continues if ready propagates up the pending variant if "pending".
+
+  #note[
+    This is special case of #link("https://dev-doc.rust-lang.org/beta/unstable-book/language-features/generators.html")[generators].
+  ]
+]
+
+#slide[
+  = `Pin` and `Unpin`
+
+  Unluckily what we described won't work for futures that take references to local variables.
+  
+  If you pause a function, you also need to keep track of all local variables, however it is not clear what happens when we move the generator.
+  It is a self-referential data structure.
+
+  And since we return the generator, we definitely move it.
+]
+
+#slide[
+  = `Pin` and `Unpin`
+
+  `Pin` says we have something pinned to specific memory location.
+  With that we can safely take references and store them as the data is guaranteed not to be moved.
+
+  To indicate that something is pinning agnostic, we have `Unpin` trait.
+  It indicates that the type does not rely nor exposes pinning guarantees.
+
+  #note[
+    Pinning is very confusing topic so we won't dive any deeper than the surface level.
+    There are many good blog posts on how it would be simpler if the language was built slightly differently.
+  ]
+]
+
+#slide[
+  = Going to sleep
+  Note that our current polling interface ends up in 100% CPU load.
+
+  To deal with that, we can go to sleep instead poll again and have something signal when to wake up.
+  For that Rust has `Waker`, passed in as an extra parameter to `poll`.
+
+  #note[
+    What exactly happens when `Waker::wake()` is called is executor dependent, but in general it tells the executor that the future can make progress again.
+  ]
+]
+
+#slide[
+  = `Waker`
+  You might have figured that `wake` does not really wake anything as to call that you need to be already running.
+
+  Instead it signals, that poll should be called again, as there is more work to do.
+
+  #note[
+    Executor can also poll when no wake is called, but having knowledge of which futures to call first helps optimize the polling.
+  ]
+]
+
+#slide[
+  _When does the execution of `async` function start?_
+  ```rs
+  let a = read_async();
+  a.await
+  ```
+  _What happens if future is dropped?_
+]
