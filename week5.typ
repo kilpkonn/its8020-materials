@@ -7,7 +7,7 @@
 
  
   #text(size: 1.3em)[
-    *Parallelism, threads, channels*
+    *Parallelism, Concurrency*
   ]
 
   ITS8020

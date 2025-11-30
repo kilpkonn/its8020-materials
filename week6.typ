@@ -20,6 +20,11 @@
   Dec 4, 2025
 ]
 
+#slide[
+  Windowing systems are not only about drawing stuff,
+  they also handle inputs/outputs and do lots of other stuff.
+]
+
 #new-section[
   Xorg
 ]
@@ -56,13 +61,26 @@
   )
 ]
 
-#slide[
-  Windowing systems are not only about drawing stuff,
-  they also handle inputs/outputs and do lots of other stuff.
-]
-
 #new-section[
   Wayland
+]
+
+#slide[
+  Wayland is a communication protocol that specifies the communication between a display server and its clients, as well as a C library implementation of that protocol.
+
+  #note[
+    The C library is only for protocol (messages)
+  ]
+]
+
+#slide[
+  = Wayland
+  - Throws away Xserver component - now compositor is the server
+  - Rendering is done in the app (render to buffer and tell the compositor to use that)
+
+  #note[
+    DRI2 under X: direct rendering achieves the same rendering for X
+  ]
 ]
 
 #slide[
@@ -72,7 +90,18 @@
 ]
 
 #slide[
+  Good guide to wayland https://wayland.freedesktop.org/
+]
+
+#slide[
   #figure(
     image("fig/wayland-lies.webp")
   )
+]
+
+#slide[
+  = Mess with GPU drivers
+  Two competing protocols:
+  - GBM for Mesa (Intel/AMD)
+  - EGL for Nvidia
 ]
