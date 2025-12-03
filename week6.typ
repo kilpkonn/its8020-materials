@@ -78,6 +78,8 @@
   - Throws away Xserver component - now compositor is the server
   - Rendering is done in the app (render to buffer and tell the compositor to use that)
 
+  See wire format #link("https://wayland.freedesktop.org/docs/html/ch04.html#sect-Protocol-Wire-Format")[here].
+
   #note[
     DRI2 under X: direct rendering achieves the same rendering for X
   ]
@@ -104,4 +106,24 @@
   Two competing protocols:
   - GBM for Mesa (Intel/AMD)
   - EGL for Nvidia
+]
+
+#new-section[Related topics]
+
+#slide[
+  = Clipboard
+  Wiki: https://en.wikipedia.org/wiki/Clipboard_(computing)
+
+  Wayland protocol: https://wayland.freedesktop.org/docs/html/ch04.html#sect-Protocol-data-sharing
+
+  Some options: https://wiki.archlinux.org/title/Clipboard
+
+  On PRIMARY selection: https://wiki.gnome.org/Initiatives/Wayland/PrimarySelection
+
+  Snooping: https://straysheep.dev/blog/2025/06/04/material-clipboard-flow-clipboard-snooping-x11-and-wayland/
+]
+
+#slide[
+  = Screenshot
+  Protocol: https://wayland.app/protocols/wlr-layer-shell-unstable-v1
 ]
