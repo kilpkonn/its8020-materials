@@ -2,28 +2,36 @@
 
 _Deadline: Has to be defended before exam_
 
-Write a wallpaper engine for you desktop environment.
+TLDR: Build your own shell in Rust.
+If you wish to use any other dependency than what is white-listed here, ask Tavo.
+Generally crates with similar functionality are allowed, but ask first just to be sure.
 
-Required features:
-1. Can loop wallpaper from configured directory periodically.
-  * Period has to be configurable
-  * Directory has to be configurable
-  * Nice to have: switch wallpaper on some events (login, logout, sleep, wake, etc.)
-2. Supports per monitor wallpapers
-3. Supports PNG, JPG and hopefully other common formats
-  * Nice to have: video formats support
-4. Generative AI wallpapers
-  * Can use either online model of offline model
-  * Online model should have sort of fallback to offline model (can be a lot less powerful, but your screen shouldn't be black)
-  * Offline model should use CPU/GPU reasonably - you don't want to max them out for wallpapers
-  * The generated wallpaper should somehow depend on what is currently going on. Some options for context:
-    - Time of the day, week, month, etc.
-    - Currently open apps / processes
-    - Resource usage
-    - Recent news, data from some webpage, weather, etc.
+## Deadline 1: TBD
+_No external creates are allowed_
+- REPL set up
+- Builtin commands: `cd`, `ls`, `exit`
 
-The repository should be set up as any open source software project.
-I.e. it should have:
-1. Readme with description of the project, usage and installation guide
-2. License
+## Deadline 2: TBD
+_No external creates are allowed_
+- Run external commands
+- Expand `~` to `$HOME`, `.` to current dir and `*` to everything that matches
 
+## Deadline 3: TBD
+_External dependencies allowed: `rustyline`_
+- Add history and command completion
+- Add syntax highlighting
+- Add `stdout` and `stderr` piping to file
+
+## Deadline 4: TBD
+_External dependencies allowed: `rustyline`_
+- Make chaining commands possible
+- Add `alias` command
+
+# Deadline 5: TBD
+_External dependencies allowed: `rustyline, pest`_
+- Add variables
+- Add proper parsing
+
+# Deadline 6: TBD
+_External dependencies allowed: `rustyline, pest`_
+- Add background processes
