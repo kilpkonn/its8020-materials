@@ -17,7 +17,7 @@
   #set text(size: .8em, weight: "light")
   Tavo Annus
 
-  Oct 30, 2025
+  Oct 27, 2026
 ]
 
 #new-section[Background]

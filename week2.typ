@@ -8,6 +8,8 @@
  
   #text(size: 1.3em)[
     *Tooling, compilation*
+
+    *Running other programs*
   ]
 
   ITS8020
@@ -17,7 +19,7 @@
   #set text(size: .8em, weight: "light")
   Tavo Annus
 
-  Nov 6, 2025
+  Nov 3, 2026
 ]
 
 #new-section[Tooling]
@@ -191,4 +193,41 @@
   But you can convert to `u64`/`u32` and back or use `unsafe` helper methods.
 
   However, de-referencing a pointer needs `unsafe` so you should avoid it by default and use only when you know what you are doing.
+]
+
+#new-section[Running other programs]
+
+#slide[
+  = Running other programs
+  _Which piece of SW provides that kind of features in general?_
+  
+  #uncover("2-")[_What does "Programming language" do?_]
+
+  #uncover("3-")[_What does C provide?_]
+]
+
+#slide[
+  = `std::process` interface
+
+  https://doc.rust-lang.org/std/process/index.html
+]
+
+#slide[
+  _Does following work?_
+  ```rs
+  Command::new("ls -la").spawn();
+  ```
+  #uncover("2-")[
+    _What about this?_
+    ```rs
+    Command::new("ls | head").spawn();
+    ```
+  ]
+
+  #uncover("3-")[
+    _Now?_
+    ```rs
+    Command::new("ls").arg("*.rs").spawn();
+    ```
+  ]
 ]
