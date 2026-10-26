@@ -27,11 +27,11 @@ _External dependencies allowed: `rustyline`_
 - Make chaining commands possible
 - Add `alias` command
 
-# Deadline 5: week 15
+## Deadline 5: week 15
 _External dependencies allowed: `rustyline, pest`_
 - Add variables
 - Add proper parsing
 
-# Deadline 6: before exam
+## Deadline 6: before exam
 _External dependencies allowed: `rustyline, pest`_
 - Add background processes
