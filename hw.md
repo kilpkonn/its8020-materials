@@ -13,7 +13,7 @@ _No external creates are allowed_
 
 ## Deadline 2: week 11
 _No external creates are allowed_
-- Run external commands
+- Run external commands (with basic args)
 - Expand `~` to `$HOME`, `.` to current dir and `*` to everything that matches
 
 ## Deadline 3: week 12

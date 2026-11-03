@@ -81,6 +81,8 @@
 
   Loosely inspired by Go: 
   "Gofmt's style is no one's favorite, yet gofmt is everyone's favorite."
+
+  #link("https://github.com/rust-lang/rustfmt")
 ]
 
 #slide[
@@ -230,4 +232,31 @@
     Command::new("ls").arg("*.rs").spawn();
     ```
   ]
+]
+
+#new-section[Shell]
+  
+
+#slide[
+  An operating system shell is a computer program that provides relatively broad and direct access to the system on which it runs.
+  
+  The term shell refers to how it is a relatively thin layer around an operating system.
+]
+
+#slide[
+  = History
+
+  1964, Multics operating system introduces the idea of "using commands somehow like a programming language" and coined the term shell to describe it.
+
+  1971, Ken Thompson developed the Thompson shell in the first version of Unix.
+
+  1979, Bourne shell (`sh`) with command substitution and more advanced control structures
+]
+
+#slide[
+  = Portable Operating System Interface (POSIX)
+
+  Wiki: https://en.wikipedia.org/wiki/POSIX#POSIX.1
+
+  Spec: https://pubs.opengroup.org/onlinepubs/9799919799/
 ]
