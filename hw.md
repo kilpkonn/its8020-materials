@@ -25,7 +25,8 @@ _External dependencies allowed: `rustyline`_
 ## Deadline 4: week 14
 _External dependencies allowed: `rustyline`_
 - Make chaining commands possible
-- Add `alias` command
+- Add `alias` & `pwd` commands
+- Add 10 integration tests for current functionality (`cd`, `ls`, `pwd` & `alias`)
 
 ## Deadline 5: week 15
 _External dependencies allowed: `rustyline, pest`_

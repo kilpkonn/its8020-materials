@@ -17,7 +17,7 @@
   #set text(size: .8em, weight: "light")
   Tavo Annus
 
-  Nov 20, 2025
+  Nov 17, 2025
 ]
 
 #slide[
@@ -175,6 +175,18 @@
     Note that the function has to be safe to call from anywhere, not just from your current implementation.
     This includes multi-threaded code!
   ]
+]
+
+#slide[
+  = Miri
+
+  Useful tool for checking for UB.
+
+  Not static, checks are dynamic and need program execution
+
+  Not exhaustive, i.e. does not give guarantee (like address sanitizers)
+
+  https://github.com/rust-lang/miri
 ]
 
 #slide[

@@ -17,7 +17,7 @@
   #set text(size: .8em, weight: "light")
   Tavo Annus
 
-  Nov 13, 2025
+  Nov 10, 2025
 ]
 
 #new-section[Ownership]
