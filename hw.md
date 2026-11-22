@@ -30,12 +30,12 @@ _External dependencies allowed: `rustyline`_
 - Add syntax highlighting
 - Add `stdout` and `stderr` piping to file
 
-### Deadline 5: week 13
+### Deadline 4: week 13
 _External dependencies allowed: `rustyline`_
 - Make chaining commands possible
 - Add `alias` & `pwd` commands
 
-### Deadline 4: week 14
+### Deadline 5: week 14
 _External dependencies allowed: `rustyline`_
 - Add 10 integration tests for current functionality (`cd`, `ls`, `pwd` & `alias`, piping and expansion)
   - Tests have to use compiled binary i.e. it must be possible to swap out the binary under test
