@@ -17,7 +17,7 @@
   #set text(size: .8em, weight: "light")
   Tavo Annus
 
-  Nov 27, 2025
+  Nov 24, 2025
 ]
 
 #slide[
@@ -56,6 +56,13 @@
   - Automatically joins all threads on on "going out of scope"
   
   See #link("https://doc.rust-lang.org/stable/std/thread/fn.scope.html")
+]
+
+#slide[
+  = Different kind of storages
+  #align(center)[
+    #image("fig/tls.png")
+  ]
 ]
 
 #slide[
@@ -253,4 +260,10 @@
   a.await
   ```
   _What happens if future is dropped?_
+]
+
+#slide[
+  = Structured concurrency
+
+  https://rust-lang.github.io/async-book/part-reference/structured.html
 ]
